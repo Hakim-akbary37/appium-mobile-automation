@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+
+<suite name="AppiumMobileAutomationSuite" parallel="none" verbose="2">
+    
+    <!-- Suite-level parameters -->
+    <parameter name="deviceName" value="Android Emulator" />
+    <parameter name="platformVersion" value="11.0" />
+    
+    <!-- Global listeners -->
+    <listeners>
+        <listener class-name="com.mobile.automation.listeners.ExtentReportListener" />
+    </listeners>
+    
+    <!-- Registration Tests -->
+    <test name="RegistrationTests" preserve-order="true">
+        <parameter name="deviceName" value="Android Emulator" />
+        <parameter name="platformVersion" value="11.0" />
+        
+        <classes>
+            <class name="com.mobile.automation.tests.RegistrationTest">
+                <methods>
+                    <include name="testUserRegistrationToConfirmationScreen" />
+                </methods>
+            </class>
+        </classes>
+    </test>
+    
+</suite>
+
