@@ -38,25 +38,12 @@ public class HomePage extends BasePage {
     public WebElement phoneNumberConfirmation;
 
 
-
-    public void enterPhonNumber(String phoneNumber) {
-        logger.info("Entering phoneNumber");
-        safeSendKeys(phoneField, phoneNumber);
-    }
-
-    private LandingPage clickLogin() {
-        logger.info("Clicking login button");
-        safeClick(logo);
-        return new LandingPage();
-    }
-
-
     public void clickGetStartedButton(){
         logger.info("Clicking get started Button");
         safeClick(getStartedButton);
     }
 
-    public void countrySelection(String country, String phoneNumber){
+    public void setCountryAndPhoneNumber(String country, String phoneNumber){
 
         countryListButton.click();
         magnifier.click();

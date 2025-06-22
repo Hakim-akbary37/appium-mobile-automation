@@ -34,7 +34,7 @@ public class RegistrationTest extends BaseTest {
         logger.info("Landed on Home Page. Verifying {} is displayed", homePage.getStartedButton.getText());
         homePage.safeClick(homePage.getStartedButton);
 
-        homePage.countrySelection(country, phoneNumber);
+        homePage.setCountryAndPhoneNumber(country, phoneNumber);
 
         homePage.verifyNumberButton.click();
 

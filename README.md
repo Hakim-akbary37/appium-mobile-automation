@@ -1,12 +1,12 @@
 # Appium Mobile Automation Framework
 
-A streamlined Appium automation framework in Java for testing native Android mobile applications. This framework implements the Page Object Model (POM) design pattern and focuses on a single, robust registration test case.
+A streamlined Appium automation framework in Java for testing native Android mobile applications. This framework implements the Page Object Model (POM) design pattern and focuses on a single, registration test case for showcasing
 
 ## Framework Features
 
 - **Page Object Model (POM)** - Clean separation of test logic and page elements
-- **TestNG Integration** - Powerful testing framework with advanced features
-- **ExtentReports** - Comprehensive HTML reporting with detailed test results
+- **TestNG Integration** - Powerful testing framework with userful features
+- **ExtentReports** - HTML reporting with detailed test results
 - **Error Handling** - Comprehensive exception handling and logging
 - **Flexible Configuration** - Easy configuration management via properties files
 - **Maven Build Tool** - Dependency management and build automation
@@ -58,15 +58,51 @@ Before setting up the framework, ensure you have the following installed:
 4. **Appium Server**
 5. **Android Emulator or Real Device**
 
+### Setup Steps
+
+1. **Verify Java and Maven Installation**: `java -version`, `mvn -version` 
+2. **Configure Android SDK**: Ensure your `ANDROID_HOME` environment variable is set and points to your Android SDK installation. Add SDK `platform-tools` and `tools` to your system's `PATH`
+3. **Verify Test Application**: Ensure the `truecaller.apk` as used in the `config.properties` example is present in the `apps/` directory.
+4. **Start Appium Server**: `npx appium`. Ensure the server is running on http://127.0.0.1:4723 as configured in `config.properties`
+5. **Start Android Emulator (or connect a Real Device)**: Launch your desired Android Emulator via Android Studio's AVD Manager, or connect a physical Android device and ensure it's recognized by `adb` (`adb devices`).
+
+### Configuration 
+The framework's behavior can be easily configured via the `src/test/resources/config.properties` file. Update these values based on your test environment, device, and application under test.
+
+# Platform Configuration
+platform.name=Android
+#device.name=172.16.xx.xxx:5555
+device.name=192.168.xx.xxx:5555
+platform.version=11.0
+
+# Application Configuration
+# Updated with correct Truecaller app details
+app.package=com.truecaller
+app.activity=com.truecaller.ui.TruecallerInit
+
+# Appium Configuration
+automation.name=UiAutomator2
+appium.server.url=http://127.0.0.1:4723
+app.path=apps/truecaller.apk
+
+# Timeout Configuration (in seconds)
+implicit.wait=10
+explicit.wait=20
+page.load.timeout=30
+
+# Test Data Configuration
+test.data.path=src/test/resources/testdata
 
 
-### 3. Verify Test Application
-Ensure the QATestApp-1.1.apk is present in the `apps/` directory. 
+# Logging Configuration
+log.level=INFO
+log.file.path=logs/automation.log
 
-### 4. Start Appium Server
 
-
-### 5. Start Android Emulator
+# Performance and stability settings
+command.timeout=300
+no.reset=true
+full.reset=false
 
 
 ## Running Tests
@@ -74,7 +110,7 @@ Ensure the QATestApp-1.1.apk is present in the `apps/` directory.
 ### Quick Test Execution (No HTML Reports)
 For development and quick testing - fastest execution:
 
-mvn test -Dtest='com.mobile.automation.tests.RegistrationTest#testSuccessfulRegistrationWithValidData'
+mvn test -Dtest='com.mobile.automation.tests.RegistrationTest#testUserRegistrationToConfirmationScreen'
 
 
 ### 📊 Reports and Output
@@ -86,15 +122,14 @@ mvn test -Dtest='com.mobile.automation.tests.RegistrationTest#testSuccessfulRegi
 
 ### Test Execution Flow
 The test will:
-1. Launch the QATestApp
-2. Perform login if required (using configured credentials)
+1. Launch the app in /apps directory
+2. Handles the first install/launch screen (native app permission handled)
 3. Navigate to the registration page
 4. Fill out the registration form with valid data:
-   - Name: Hakim
-   - Email: hakim@akbary.com
-   - Phone: 123456
-5. Subscribe to newsletter
-6. Submit the registration
+   - country: ConfigManager.getRegisterCountry()
+   - Phone: ConfigManager.getRegisterPhone()
+5. Tap verify phone number button
+6. Assert phone number on the screen against phone number used in test data (Configmanager.getRegisterPhone)
 
 
 ## 🔍 Framework Components
@@ -106,7 +141,7 @@ The test will:
 
 ### DriverManager
 - Android driver initialization and cleanup
-- Configures capabilities for QATestApp
+- Configures capabilities for target app (now TrueCaller)
 - Handles device connection and app installation
 
 ### Page Objects
@@ -119,18 +154,9 @@ The test will:
 
 #### HomePage
 - Handles login functionality
-- Methods: `login()`, `isPageLoaded()`
-- Element interactions for username/password fields and login button
+- Methods: `clickGetStartedButton()`, `isPageLoaded()`, `setCountryAndPhoneNumber(country, phoneNumber)` 
+- Home page elements and locators 
 
-#### LandingPage
-- Manages navigation from landing page to registration
-- Methods: `clickRegister()`, `isPageLoaded()`
-- Handles page title verification and navigation logic
-
-#### RegistrationPage
-- Complete registration form handling
-- Methods: `completeRegistration()`, `isPageLoaded()`
-- Form field interactions: name, email, phone, terms checkbox, submit
 
 ### BaseTest
 - Common setup and teardown for all tests
