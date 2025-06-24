@@ -22,6 +22,7 @@
                 <methods>
                     <include name="testUserRegistrationToConfirmationScreen" />
                     <include name="editPhoneNumber" />
+                    <include name="invalidPhoneNumber" />
                 </methods>
             </class>
         </classes>
