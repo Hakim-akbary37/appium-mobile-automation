@@ -14,6 +14,7 @@ public class RegistrationTest extends BaseTest {
     private HomePage homePage;
     private final String phoneNumber = ConfigManager.getRegisterPhone();
     private final String country = ConfigManager.getRegisterCountry();
+    private final String incorrectPhoneNumber = ConfigManager.getincorrectPhoneNumber();
 
 
 
@@ -35,8 +36,6 @@ public class RegistrationTest extends BaseTest {
 
         homePage.setCountryAndPhoneNumber(country, phoneNumber);
 
-        homePage.verifyNumberButton.click();
-
         String phoneNumberOnTheFinalScreen = homePage.phoneNumberConfirmation.getText();
         String phoneNumberOnTheFinalScreenNoSpacing = phoneNumberOnTheFinalScreen.replaceAll(" ", "").substring(3); //applying substring to remove the country code
         logTestStep("Removing the country code and spaces from the phone number on the screen");
@@ -55,11 +54,31 @@ public class RegistrationTest extends BaseTest {
         logTestStep("Tapping get started button in the edit phone number test");
         homePage.safeClick(homePage.getStartedButton);
 
-        homePage.setCountryAndPhoneNumber(country, phoneNumber);
-        homePage.verifyNumberButton.click();
+        logger.info("Inserting country and phone number");
+        homePage.editPhoneNumber(country, phoneNumber);
         Assert.assertTrue(homePage.editButton.isDisplayed(), "Edit button is not displayed");
+
+        logger.info("Clicking edit button");
         homePage.editButton.click();
         Assert.assertTrue(homePage.phoneField.isDisplayed(), "No phone field found");
+
+    }
+
+    @Test(description = "Test Invalid Phone Number")
+    public void invalidPhoneNumber() {
+
+        HomePage homePage = new HomePage();
+        logger.info("Verifying Home Page is loaded");
+        homePage.isPageLoaded();
+
+        logTestStep("Tapping Get Started Button");
+        homePage.safeClick(homePage.getStartedButton);
+
+        logger.info("Puttingincorrect phone number");
+        homePage.setIncorrectCountryAndPhoneNumber(country, incorrectPhoneNumber);
+        logger.info("incorrect phone number successfully set");
+        Assert.assertTrue(homePage.incorrectErrorMessage.isDisplayed(), "No error popup displayed");
+
 
 
     }
