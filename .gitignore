@@ -110,7 +110,7 @@ Thumbs.db
 
 # Environment and configuration files (if sensitive)
 # Uncomment these if they contain sensitive information
-# config.properties
+config.properties
 # application-local.properties
 
 # Test data files (if they contain sensitive data)
