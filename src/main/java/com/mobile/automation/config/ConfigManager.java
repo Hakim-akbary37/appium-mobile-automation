@@ -123,5 +123,8 @@ public class ConfigManager {
     public static String getRegisterPhone() {
         return properties.getProperty("register.phone");
     }
+
+    public static String getincorrectPhoneNumber() { return properties.getProperty("register.incorrectPhoneNumber");
+    }
 }
 

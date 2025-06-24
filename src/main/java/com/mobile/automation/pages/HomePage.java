@@ -13,7 +13,6 @@ public class HomePage extends BasePage {
     @AndroidFindBy(id = "com.truecaller:id/wizardLogo")
     private WebElement logo;
 
-
     @AndroidFindBy(id = "com.truecaller:id/nextButton")
     public WebElement getStartedButton;
 
@@ -38,12 +37,14 @@ public class HomePage extends BasePage {
     @AndroidFindBy(id = "com.truecaller:id/phoneNumber")
     public WebElement phoneNumberConfirmation;
 
-    @AndroidFindBy(xpath = "/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.ScrollView/android.widget.LinearLayout/android.widget.LinearLayout[2]/android.widget.FrameLayout/android.widget.LinearLayout[2]/android.widget.FrameLayout/android.widget.ImageButton")
-    public WebElement tickButton;
-
     @AndroidFindBy(id = "android:id/button2")
     public WebElement editButton;
 
+    @AndroidFindBy(id = "android:id/message")
+    public WebElement incorrectErrorMessage;
+
+    @AndroidFindBy (id = "android:id/button1")
+    public  WebElement confirmPhoneNumberButton;
 
     public void clickGetStartedButton(){
         logger.info("Clicking get started Button");
@@ -56,10 +57,11 @@ public class HomePage extends BasePage {
         magnifier.click();
         searchFieldBar.sendKeys(country);
         String searchBarText = searchFieldBar.getText();
-        logger.info("succesfully took the text {} from search bar", searchBarText);
+        logger.info("Successfully took the text {} from search bar", searchBarText);
 
         countryText.click();
         safeSendKeys(phoneField, phoneNumber);
+        verifyNumberButton.click();
 
     }
 
@@ -69,12 +71,27 @@ public class HomePage extends BasePage {
         magnifier.click();
         searchFieldBar.sendKeys(country);
         String searchBarText = searchFieldBar.getText();
-        logger.info("succesfully took the text {} from search bar", searchBarText);
+        logger.info("successfully took the text {} from search bar", searchBarText);
 
         countryText.click();
         safeSendKeys(phoneField, phoneNumber);
 
         verifyNumberButton.click();
+
+    }
+
+    public void setIncorrectCountryAndPhoneNumber(String country, String incorrectPhoneNumberphoneNumber){
+
+        countryListButton.click();
+        magnifier.click();
+        searchFieldBar.sendKeys(country);
+        String searchBarText = searchFieldBar.getText();
+        logger.info("succesfully took the text {} from search bar", searchBarText);
+
+        countryText.click();
+        safeSendKeys(phoneField, incorrectPhoneNumberphoneNumber);
+        verifyNumberButton.click();
+        confirmPhoneNumberButton.click();
 
 
     }
