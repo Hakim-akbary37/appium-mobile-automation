@@ -2,6 +2,7 @@ package com.mobile.automation.pages;
 
 import io.appium.java_client.pagefactory.AndroidFindBy;
 import org.openqa.selenium.WebElement;
+import org.testng.Assert;
 
 /**
  * Home Page Object class representing the login screen (first screen of the app which has title as qatestapp)
@@ -37,6 +38,12 @@ public class HomePage extends BasePage {
     @AndroidFindBy(id = "com.truecaller:id/phoneNumber")
     public WebElement phoneNumberConfirmation;
 
+    @AndroidFindBy(xpath = "/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.ScrollView/android.widget.LinearLayout/android.widget.LinearLayout[2]/android.widget.FrameLayout/android.widget.LinearLayout[2]/android.widget.FrameLayout/android.widget.ImageButton")
+    public WebElement tickButton;
+
+    @AndroidFindBy(id = "android:id/button2")
+    public WebElement editButton;
+
 
     public void clickGetStartedButton(){
         logger.info("Clicking get started Button");
@@ -53,6 +60,22 @@ public class HomePage extends BasePage {
 
         countryText.click();
         safeSendKeys(phoneField, phoneNumber);
+
+    }
+
+    public void editPhoneNumber(String country, String phoneNumber){
+
+        countryListButton.click();
+        magnifier.click();
+        searchFieldBar.sendKeys(country);
+        String searchBarText = searchFieldBar.getText();
+        logger.info("succesfully took the text {} from search bar", searchBarText);
+
+        countryText.click();
+        safeSendKeys(phoneField, phoneNumber);
+
+        verifyNumberButton.click();
+
 
     }
 
