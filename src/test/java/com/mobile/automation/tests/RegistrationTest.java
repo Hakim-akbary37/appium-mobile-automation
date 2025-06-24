@@ -18,12 +18,11 @@ public class RegistrationTest extends BaseTest {
 
 
     @Test(description = "Verify successful user flow to Phone Number confirmation Screen")
-    public void testUserRegistrationToConfirmationScreen() throws InterruptedException {
+    public void testUserRegistrationToConfirmationScreen() {
         logTestStart("True caller App Launch and Basic Navigation to Phone Number confirmation Screen");
 
         logTestStep("Initializing page objects");
         homePage = new HomePage();
-
 
         logger.info("Attempting to verify Home Page loaded state");
         Assert.assertTrue(homePage.isPageLoaded(), "Home page did not load successfully.");
@@ -38,13 +37,29 @@ public class RegistrationTest extends BaseTest {
 
         homePage.verifyNumberButton.click();
 
-
         String phoneNumberOnTheFinalScreen = homePage.phoneNumberConfirmation.getText();
-        String phoneNumberOnTheFinalScreenNoSpacing = phoneNumberOnTheFinalScreen.replaceAll(" ", "").substring(3);
+        String phoneNumberOnTheFinalScreenNoSpacing = phoneNumberOnTheFinalScreen.replaceAll(" ", "").substring(3); //applying substring to remove the country code
         logTestStep("Removing the country code and spaces from the phone number on the screen");
         Assert.assertEquals(phoneNumberOnTheFinalScreenNoSpacing, phoneNumber);
 
+    }
 
+    @Test(description = "Verify user can edit phone number")
+    public void editPhoneNumber() {
+
+        HomePage homePage = new HomePage();
+
+        logger.info("Attempting to verify home page is loaded");
+        homePage.isPageLoaded();
+
+        logTestStep("Tapping get started button in the edit phone number test");
+        homePage.safeClick(homePage.getStartedButton);
+
+        homePage.setCountryAndPhoneNumber(country, phoneNumber);
+        homePage.verifyNumberButton.click();
+        Assert.assertTrue(homePage.editButton.isDisplayed(), "Edit button is not displayed");
+        homePage.editButton.click();
+        Assert.assertTrue(homePage.phoneField.isDisplayed(), "No phone field found");
 
 
     }
