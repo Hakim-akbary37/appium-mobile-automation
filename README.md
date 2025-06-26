@@ -38,7 +38,7 @@ appium-mobile-automation/
 │           ├── logback.xml                 # Logging configuration
 │           └── testng.xml                  # TestNG suite configuration
 ├── apps/
-│   └── QATestApp-1.1.apk                   # Test application
+│   └── truecaller.apk                   # Test application
 ├── reports/                                # Test reports directory
 ├── logs/                                   # Log files directory
 ├── pom.xml                                 # Maven configuration
